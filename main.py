@@ -42,18 +42,21 @@ def select_files(pdfs, pdfs_selected=None):
             return select_file_one ()
     
     select_file_one ()
-    
-    def select_file_two ():
-        print("File #2:")
+
+    def select_file_two (func_iterator=2):
+        print(f"File #{func_iterator}:")
         merge_file2 = input()
         if merge_file2 in pdfs:
             pdfs_selected.append(select_file_one)
             print("Do you have any more files to merge? Y/N")
             answer = input()
-            if answer == 'Y':
-                return select_file_two ()
-        elif merge_file2 == 'Exit':
+            if answer == 'Y' or 'y':
+                func_iterator+=1
+                return select_file_two (func_iterator)
+        elif merge_file2 == 'Exit' or 'exit':
             sys.exit()
+        elif merge_file2 == 'N' or 'n':
+            pass
         else:
             print("This file does not exist. Please make sure the file name is spelled correctly and it is located on your desktop.")
             return select_file_two ()
