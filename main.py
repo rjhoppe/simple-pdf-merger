@@ -6,7 +6,7 @@ def find_files (pdfs=None):
     if pdfs is None:
         pdfs = []
 
-    directory = os.path('C:\Users\Rick\Desktop')
+    directory = os.path('C:\\Users\\Rick\\Desktop')
     files = os.listdir(directory)
     for f in files:
         if f.endswith('.pdf'):
