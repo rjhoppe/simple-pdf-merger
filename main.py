@@ -76,6 +76,8 @@ def select_files(pdfs, pdfs_selected=None):
             for p in pdfs_selected:
                 # p = os.environ['USERPROFILE'] + '\Desktop' + p
                 # Need to copy files to this directory
+                # What to do with duplicates? - Only allow one of each
+                # Copy files to pdf_files folder, merge files, delete copied files, push copied filed to desktop, delete merged copy
                 merger.append(p)
 
             merger.write("mergedfile.pdf")
