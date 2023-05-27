@@ -1,6 +1,8 @@
-from PyPDF2 import PdfMerger
+from PyPDF2 import PdfWriter
 import os
 import sys
+import shutil
+# from collections import defaultdict
 
 def find_files (pdfs=None):
     if pdfs is None:
@@ -66,21 +68,47 @@ def select_files(pdfs, pdfs_selected=None):
             
     select_file_two ()
             
-    def merge_files (pdfs_selected):
+    def merge_files (pdfs_selected, pdf_path=None):
+        if pdf_path is None:
+            pdf_path = {}
+
         print(f'Prepping the following files for merging: {pdfs_selected}')
         print("Finalize this merge? Y/N")
         finalize = input()
         if finalize == 'Y':
-            merger = PdfMerger()
 
+            merger = PdfWriter()
             for p in pdfs_selected:
-                # p = os.environ['USERPROFILE'] + '\Desktop' + p
+                full_path = (os.environ['USERPROFILE'] + '\Desktop' + '\\' + p)
+                pdf_path.update({p: full_path})
+            print(pdfs_selected)
+
+            # print(pdf_path)
+            # print(pdf_path.items)
+            # print(pdf_path.values())
+
+            for key, value in pdf_path.items():
+                source = value
+                print(source)
+                dest = (os.environ['USERPROFILE'] + '\Documents\Python_Practice\Simple PDF Merger\simple-pdf-merger' + '\\' + key)
+                print (dest)
+                shutil.copyfile(source, dest)
+
                 # Need to copy files to this directory
                 # What to do with duplicates? - Only allow one of each
                 # Copy files to pdf_files folder, merge files, delete copied files, push copied filed to desktop, delete merged copy
-                merger.append(p)
 
-            merger.write("mergedfile.pdf")
+            # keys = pdf_path.keys()
+            # print(keys)
+
+            # merger = PdfMerger()
+            # for k in keys:
+            #     merger.append(k) 
+            # print(k)
+            for pdf in pdfs_selected:
+                merger.append(pdf, 'rb')
+
+            merger.write("merged-file.pdf")
             merger.close()
             print('Job done.')
         
