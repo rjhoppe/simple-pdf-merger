@@ -68,6 +68,7 @@ def select_files(pdfs, pdfs_selected=None):
             
     select_file_two ()
             
+    # Merge files must be unique - i.e. cannot merge the same file
     def merge_files (pdfs_selected, pdf_path=None):
         if pdf_path is None:
             pdf_path = {}
@@ -152,8 +153,9 @@ def clean_up_dir ():
         if file.endswith('.pdf') and file != 'merged-file.pdf':
             os.remove(file)
 
-    source = 'C:/Users/Rick/Documents/Python_Practice/Simple PDF Merger/merge-file.pdf'
-    dest = (os.environ['USERPROFILE'] + '\Desktop')
+    source = 'C:/Users/Rick/Documents/Python_Practice/Simple PDF Merger/merged-file.pdf'
+    # dest = (os.environ['USERPROFILE'] + '\Desktop')
+    dest = 'C:/Users/Rick/Desktop\merged-file.pdf'
     shutil.copyfile(source, dest)
     os.remove('merged-file.pdf')
     print('Directories cleaned up. Please find your new file on your desktop!')
