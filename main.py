@@ -9,19 +9,16 @@ def find_files (pdfs=None):
 
     directory = (os.environ['USERPROFILE'] + '\Desktop')
     files = os.listdir(directory)
-    print(files)
     for f in files:
         if f.endswith('.pdf'):
             pdfs.append(f)
     return pdfs
 
 pdfs = find_files()
-print(pdfs)
 
 def return_files (pdfs):
     print('These are your PDF files available to merge:')
-    for f in pdfs:
-        print(f)
+    print(pdfs)
 
 return_files (pdfs)
 
@@ -64,13 +61,10 @@ def select_files(pdfs, pdfs_selected=None):
                     for p in pdfs_selected:
                         full_path = (os.environ['USERPROFILE'] + '\Desktop' + '\\' + p)
                         pdf_path.update({p: full_path})
-                    print(pdfs_selected)
 
                     for key, value in pdf_path.items():
                         source = value
-                        print(source)
                         dest = (os.environ['USERPROFILE'] + '\Documents\Python_Practice\Simple PDF Merger' + '\\' + key)
-                        print (dest)
                         shutil.copyfile(source, dest)
 
                     for pdf in pdfs_selected:
@@ -104,13 +98,10 @@ def select_files(pdfs, pdfs_selected=None):
             for p in pdfs_selected:
                 full_path = (os.environ['USERPROFILE'] + '\Desktop' + '\\' + p)
                 pdf_path.update({p: full_path})
-            print(pdfs_selected)
 
             for key, value in pdf_path.items():
                 source = value
-                print(source)
                 dest = (os.environ['USERPROFILE'] + '\Documents\Python_Practice\Simple PDF Merger' + '\\' + key)
-                print (dest)
                 shutil.copyfile(source, dest)
 
             for pdf in pdfs_selected:
@@ -124,7 +115,6 @@ def select_files(pdfs, pdfs_selected=None):
             print('What action would you like to take: Add, Delete, Exit')
             action = input()
             if action == 'Add' or action == 'add':
-                #
                 return select_file_two(func_iterator=(len(pdfs_selected)+1), add_marker=True)
 
             elif action == 'Delete' or action == 'delete':
