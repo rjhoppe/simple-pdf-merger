@@ -90,7 +90,7 @@ def select_files(pdfs, pdfs_selected=None):
             for key, value in pdf_path.items():
                 source = value
                 print(source)
-                dest = (os.environ['USERPROFILE'] + '\Documents\Python_Practice\Simple PDF Merger\simple-pdf-merger' + '\\' + key)
+                dest = (os.environ['USERPROFILE'] + '\Documents\Python_Practice\Simple PDF Merger' + '\\' + key)
                 print (dest)
                 shutil.copyfile(source, dest)
 
@@ -106,7 +106,7 @@ def select_files(pdfs, pdfs_selected=None):
             #     merger.append(k) 
             # print(k)
             for pdf in pdfs_selected:
-                merger.append(pdf, 'rb')
+                merger.append(pdf)
 
             merger.write("merged-file.pdf")
             merger.close()
