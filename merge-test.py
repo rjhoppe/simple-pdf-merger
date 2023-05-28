@@ -1,6 +1,8 @@
 from PyPDF2 import PdfWriter, PdfFileMerger
 import os
 from pathlib import Path
+import sys
+
 merger = PdfWriter()
 
 list = ["C:\\Users\\Rick\\Documents\\Python_Practice\\Simple PDF Merger\\simple-pdf-merger\\PDF_Test_1.pdf", "C:\\Users\\Rick\\Documents\\Python_Practice\\Simple PDF Merger\\simple-pdf-merger\\PDF_Test_2.pdf"]
@@ -34,6 +36,10 @@ print(new_paths)
 # path = os.getcwd
 
 cwd = os.listdir()
+print(cwd)
+sys.exit()
+
+
 dir_list = []
 for c in cwd:
     dir_list.append(c)

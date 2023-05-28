@@ -144,3 +144,18 @@ def select_files(pdfs, pdfs_selected=None):
 
 select_files(pdfs)
 
+def clean_up_dir ():
+
+    # Finish
+    cwd = os.listdir()
+    for file in cwd:
+        if file.endswith('.pdf') and file != 'merged-file.pdf':
+            os.remove(file)
+
+    source = 'C:/Users/Rick/Documents/Python_Practice/Simple PDF Merger/merge-file.pdf'
+    dest = (os.environ['USERPROFILE'] + '\Desktop')
+    shutil.copyfile(source, dest)
+    os.remove('merged-file.pdf')
+    print('Directories cleaned up. Please find your new file on your desktop!')
+    
+clean_up_dir ()
