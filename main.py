@@ -2,7 +2,6 @@ from PyPDF2 import PdfWriter
 import os
 import sys
 import shutil
-# from collections import defaultdict
 
 def find_files (pdfs=None):
     if pdfs is None:
@@ -37,7 +36,7 @@ def select_files(pdfs, pdfs_selected=None):
         merge_file1 = input()
         if merge_file1 in pdfs:
             pdfs_selected.append(merge_file1)
-        elif merge_file1 == 'Exit':
+        elif merge_file1 == 'Exit' or merge_file1 == 'exit':
             sys.exit()
         else:
             print("This file does not exist. Please make sure the file name is spelled correctly and it is located on your desktop.")
@@ -45,22 +44,45 @@ def select_files(pdfs, pdfs_selected=None):
     
     select_file_one ()
 
-    def select_file_two (func_iterator=2):
+    def select_file_two (func_iterator=2, add_marker = False):
         print(f"File #{func_iterator}:")
         merge_file2 = input()
         if merge_file2 in pdfs:
             pdfs_selected.append(merge_file2)
             print("Do you have any more files to merge? Y/N")
             answer = input()
-            if answer == 'Y':
+            if answer == 'Y' or answer == 'y':
                 print(f'Files selected: {pdfs_selected}')
                 func_iterator+=1
                 return select_file_two (func_iterator)
-            if answer == 'N':
+            if answer == 'N' or answer == 'n':
                 print(f'Files selected: {pdfs_selected}')
+                # Added logic to handle when a user adds / deletes files
+                if add_marker is True:
+                    merger = PdfWriter()
+                    pdf_path = {}
+                    for p in pdfs_selected:
+                        full_path = (os.environ['USERPROFILE'] + '\Desktop' + '\\' + p)
+                        pdf_path.update({p: full_path})
+                    print(pdfs_selected)
+
+                    for key, value in pdf_path.items():
+                        source = value
+                        print(source)
+                        dest = (os.environ['USERPROFILE'] + '\Documents\Python_Practice\Simple PDF Merger' + '\\' + key)
+                        print (dest)
+                        shutil.copyfile(source, dest)
+
+                    for pdf in pdfs_selected:
+                        merger.append(pdf)
+
+                    merger.write("merged-file.pdf")
+                    merger.close()
+                    print('Job done.')
+                   
             else:
                 print("Command not recognized.")
-        elif merge_file2 == 'Exit':
+        elif merge_file2 == 'Exit' or merge_file2 == 'exit':
             sys.exit()
         else:
             print("This file does not exist. Please make sure the file name is spelled correctly and it is located on your desktop.")
@@ -76,17 +98,13 @@ def select_files(pdfs, pdfs_selected=None):
         print(f'Prepping the following files for merging: {pdfs_selected}')
         print("Finalize this merge? Y/N")
         finalize = input()
-        if finalize == 'Y':
+        if finalize == 'Y' or finalize == 'y':
 
             merger = PdfWriter()
             for p in pdfs_selected:
                 full_path = (os.environ['USERPROFILE'] + '\Desktop' + '\\' + p)
                 pdf_path.update({p: full_path})
             print(pdfs_selected)
-
-            # print(pdf_path)
-            # print(pdf_path.items)
-            # print(pdf_path.values())
 
             for key, value in pdf_path.items():
                 source = value
@@ -95,17 +113,6 @@ def select_files(pdfs, pdfs_selected=None):
                 print (dest)
                 shutil.copyfile(source, dest)
 
-                # Need to copy files to this directory
-                # What to do with duplicates? - Only allow one of each
-                # Copy files to pdf_files folder, merge files, delete copied files, push copied filed to desktop, delete merged copy
-
-            # keys = pdf_path.keys()
-            # print(keys)
-
-            # merger = PdfMerger()
-            # for k in keys:
-            #     merger.append(k) 
-            # print(k)
             for pdf in pdfs_selected:
                 merger.append(pdf)
 
@@ -113,13 +120,14 @@ def select_files(pdfs, pdfs_selected=None):
             merger.close()
             print('Job done.')
         
-        elif finalize == 'N':
+        elif finalize == 'N' or finalize == 'n':
             print('What action would you like to take: Add, Delete, Exit')
             action = input()
-            if action == 'Add': 
-                return select_file_two(func_iterator=(len(pdfs_selected)+1))
+            if action == 'Add' or action == 'add':
+                #
+                return select_file_two(func_iterator=(len(pdfs_selected)+1), add_marker=True)
 
-            elif action == 'Delete':
+            elif action == 'Delete' or action == 'delete':
                 print('Which file would you like to delete from your list?')
                 print(pdfs_selected)
                 delete_choice = input()
@@ -127,14 +135,14 @@ def select_files(pdfs, pdfs_selected=None):
                     pdfs_selected.remove(delete_choice)
                     return merge_files (pdfs_selected)
 
-            elif action == 'Exit':
+            elif action == 'Exit' or action == 'exit':
                 sys.exit()
 
             else:
                 print('Command not recognized, please try again.')
                 return merge_files()
 
-        elif finalize == 'Exit':
+        elif finalize == 'Exit' or finalize == 'exit':
             sys.exit()
 
         else:
@@ -147,14 +155,12 @@ select_files(pdfs)
 
 def clean_up_dir ():
 
-    # Finish
     cwd = os.listdir()
     for file in cwd:
         if file.endswith('.pdf') and file != 'merged-file.pdf':
             os.remove(file)
 
     source = 'C:/Users/Rick/Documents/Python_Practice/Simple PDF Merger/merged-file.pdf'
-    # dest = (os.environ['USERPROFILE'] + '\Desktop')
     dest = 'C:/Users/Rick/Desktop\merged-file.pdf'
     shutil.copyfile(source, dest)
     os.remove('merged-file.pdf')
